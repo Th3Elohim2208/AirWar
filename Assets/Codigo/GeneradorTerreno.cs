@@ -15,9 +15,9 @@ public class GeneradorTerreno : MonoBehaviour
     private Grafo grafo;
 
     // Dimensiones de las áreas específicas
-    private Rect areaTierra1 = new Rect(-9.8f, -4.2f, 5.2f, 8.2f); // Área de tierra izquierda
-    private Rect areaTierra2 = new Rect(4.5f, -4.2f, 5.2f, 8.2f);  // Área de tierra derecha
-    private Rect areaMar = new Rect(-2.8f, -4.2f, 5.2f, 8.2f); // Área de mar en el centro
+    private Rect areaTierra1 = new Rect(-9.8f, -4.2f, 5.2f, 9.3f); // Área de tierra izquierda
+    private Rect areaTierra2 = new Rect(4.5f, -4.2f, 5.2f, 9.3f);  // Área de tierra derecha
+    private Rect areaMar = new Rect(-2.8f, -4.2f, 5.2f, 9.3f); // Área de mar en el centro
 
     void Start()
     {

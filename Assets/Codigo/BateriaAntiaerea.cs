@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BateriaAntiaerea : MonoBehaviour
 {
-    public GameObject balaPrefab; // Prefab de la bala
-    public float velocidadMovimiento = 2.0f; // Velocidad de la batería
-    public float velocidadMaximaBala = 10.0f; // Velocidad máxima de la bala
-    public Transform puntoDisparo; // Punto desde el que se dispara la bala
+    public GameObject balaPrefab;
+    public float velocidadMovimiento = 2.0f;
+    public float velocidadMaximaBala = 10.0f;
+    public float tiempoMaximoDeCarga = 2.0f; // Tiempo necesario para carga completa
+    public Transform puntoDisparo;
+    public Image barraCarga;
 
     private bool moviendoDerecha = true;
     private float tiempoPresionandoClick = 0.0f;
@@ -21,50 +24,58 @@ public class BateriaAntiaerea : MonoBehaviour
 
     void MoverBateria()
     {
-        // Movimiento de izquierda a derecha
         if (moviendoDerecha)
         {
             transform.Translate(Vector2.right * velocidadMovimiento * Time.deltaTime);
-            if (transform.position.x > 10.8f) // Limite derecho
+            if (transform.position.x > 10.8f) // Límite derecho
                 moviendoDerecha = false;
         }
         else
         {
             transform.Translate(Vector2.left * velocidadMovimiento * Time.deltaTime);
-            if (transform.position.x < -10.8f) // Limite izquierdo
+            if (transform.position.x < -10.8f) // Límite izquierdo
                 moviendoDerecha = true;
         }
     }
 
     void ControlarDisparo()
     {
-        // Detectar cuando se mantiene presionado el clic
         if (Input.GetMouseButtonDown(0))
         {
             estaPresionandoClick = true;
             tiempoPresionandoClick = 0.0f;
         }
 
-        // Acumular el tiempo de presionado
         if (estaPresionandoClick)
         {
             tiempoPresionandoClick += Time.deltaTime;
+
+            // Calcular el progreso en función del tiempo máximo de carga
+            float progresoCarga = Mathf.Clamp(tiempoPresionandoClick / tiempoMaximoDeCarga, 0, 1);
+            barraCarga.fillAmount = progresoCarga;
+
+            // Calcular la velocidad de la bala en función del progreso de carga
+            float velocidadBala = progresoCarga * velocidadMaximaBala;
+            Debug.Log("Velocidad de la Bala (en carga): " + velocidadBala);
         }
 
-        // Detectar cuando se suelta el clic para disparar la bala
         if (Input.GetMouseButtonUp(0) && estaPresionandoClick)
         {
             estaPresionandoClick = false;
             DispararBala(tiempoPresionandoClick);
+            barraCarga.fillAmount = 0;
         }
     }
 
     void DispararBala(float tiempoPresion)
     {
-        // Limitar el tiempo de presionado para que no supere una velocidad máxima
-        float velocidadBala = Mathf.Clamp(tiempoPresion * velocidadMaximaBala, 1.0f, velocidadMaximaBala);
+        // Calcular el progreso en función del tiempo máximo de carga
+        float progresoCarga = Mathf.Clamp(tiempoPresion / tiempoMaximoDeCarga, 0, 1);
+        float velocidadBala = progresoCarga * velocidadMaximaBala;
 
-        // Instanciar la bala y establecer su velocidad
+        // Mostrar en consola la velocidad final al disparar
+        Debug.Log("Velocidad de la Bala (al disparar): " + velocidadBala);
+
         GameObject bala = Instantiate(balaPrefab, puntoDisparo.position, Quaternion.identity);
         bala.GetComponent<Bala>().Inicializar(velocidadBala);
     }
