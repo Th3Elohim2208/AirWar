@@ -3,36 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Avion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\Avion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\AvionManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\AvionManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\TemporizadorJuego.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\TemporizadorJuego.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Bala.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\Bala.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Arista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\Arista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\GeneradorGrafo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\GeneradorGrafo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\BateriaAntiaerea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\BateriaAntiaerea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Avion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\Avion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\GeneradorTerreno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\GeneradorTerreno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\GeneradorGrafo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\GeneradorGrafo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\AvionManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\AvionManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Grafo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\Grafo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Arista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\Arista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\BateriaAntiaerea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Codigo\\BateriaAntiaerea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Nodo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -56,7 +60,7 @@
               "RelativeDocumentMoniker": "Assets\\Codigo\\GeneradorGrafo.cs",
               "ToolTip": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\GeneradorGrafo.cs",
               "RelativeToolTip": "Assets\\Codigo\\GeneradorGrafo.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAAAI8AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-31T02:12:29.571Z",
               "IsPinned": true,
@@ -64,13 +68,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "AvionManager.cs",
               "DocumentMoniker": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\AvionManager.cs",
               "RelativeDocumentMoniker": "Assets\\Codigo\\AvionManager.cs",
               "ToolTip": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\AvionManager.cs",
               "RelativeToolTip": "Assets\\Codigo\\AvionManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-06T05:55:24.324Z",
               "IsPinned": true,
@@ -78,13 +82,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "GeneradorTerreno.cs",
               "DocumentMoniker": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\GeneradorTerreno.cs",
               "RelativeDocumentMoniker": "Assets\\Codigo\\GeneradorTerreno.cs",
               "ToolTip": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\GeneradorTerreno.cs",
               "RelativeToolTip": "Assets\\Codigo\\GeneradorTerreno.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAAAJAAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-31T02:10:07.836Z",
               "IsPinned": true,
@@ -92,46 +96,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "TemporizadorJuego.cs",
+              "DocumentMoniker": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\TemporizadorJuego.cs",
+              "RelativeDocumentMoniker": "Assets\\Codigo\\TemporizadorJuego.cs",
+              "ToolTip": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\TemporizadorJuego.cs",
+              "RelativeToolTip": "Assets\\Codigo\\TemporizadorJuego.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAEkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-07T10:31:46.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Grafo.cs",
               "DocumentMoniker": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Grafo.cs",
               "RelativeDocumentMoniker": "Assets\\Codigo\\Grafo.cs",
               "ToolTip": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Grafo.cs",
               "RelativeToolTip": "Assets\\Codigo\\Grafo.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAcwD8AAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-31T02:11:24.972Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Avion.cs",
               "DocumentMoniker": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Avion.cs",
               "RelativeDocumentMoniker": "Assets\\Codigo\\Avion.cs",
               "ToolTip": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Avion.cs",
               "RelativeToolTip": "Assets\\Codigo\\Avion.cs",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAAAHcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-06T03:55:50.572Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Bala.cs",
               "DocumentMoniker": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Bala.cs",
               "RelativeDocumentMoniker": "Assets\\Codigo\\Bala.cs",
               "ToolTip": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Bala.cs",
               "RelativeToolTip": "Assets\\Codigo\\Bala.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-05T05:45:14.567Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "BateriaAntiaerea.cs",
               "DocumentMoniker": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\BateriaAntiaerea.cs",
               "RelativeDocumentMoniker": "Assets\\Codigo\\BateriaAntiaerea.cs",
@@ -144,7 +161,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "Arista.cs",
               "DocumentMoniker": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Arista.cs",
               "RelativeDocumentMoniker": "Assets\\Codigo\\Arista.cs",
@@ -157,7 +174,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Nodo.cs",
               "DocumentMoniker": "C:\\Users\\javier\\Desktop\\AirWar\\AirWar\\Assets\\Codigo\\Nodo.cs",
               "RelativeDocumentMoniker": "Assets\\Codigo\\Nodo.cs",

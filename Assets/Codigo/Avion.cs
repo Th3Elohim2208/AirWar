@@ -16,6 +16,8 @@ public class Avion : MonoBehaviour
     public static event Action OnAvionDestruido;
     private int indiceRuta = 0;
     private LineRenderer lineRenderer;
+    private bool puedeMoverse = true;
+
 
     void Start()
     {
@@ -27,11 +29,18 @@ public class Avion : MonoBehaviour
 
     void Update()
     {
-        if (rutaActual != null && indiceRuta < rutaActual.Count)
+        if (puedeMoverse && rutaActual != null && indiceRuta < rutaActual.Count)
         {
             MoverHaciaDestino();
         }
     }
+
+
+    public void DetenerMovimiento()
+    {
+        puedeMoverse = false;
+    }
+
 
     Nodo ObtenerNodoInicial()
     {
