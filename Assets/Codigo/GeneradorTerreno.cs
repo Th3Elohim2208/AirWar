@@ -21,10 +21,41 @@ public class GeneradorTerreno : MonoBehaviour
 
     void Start()
     {
-        grafo = new Grafo();
+        grafo = new Grafo(); // Inicializa el grafo aquí en GeneradorTerreno
         GenerarAeropuertos();
         GenerarPortaviones();
+
+
+        // Llama al método para asignar el grafo inicializado a GeneradorGrafo
+        var generadorGrafo = FindObjectOfType<GeneradorGrafo>();
+        if (generadorGrafo != null)
+        {
+            generadorGrafo.InicializarGrafo(grafo);
+        }
+        else
+        {
+            Debug.LogError("GeneradorGrafo no encontrado en la escena.");
+        }
     }
+
+
+
+    void OnEnable()
+    {
+        GeneradorGrafo.OnGrafoInicializado += ConfigurarTerreno;
+    }
+
+    void OnDisable()
+    {
+        GeneradorGrafo.OnGrafoInicializado -= ConfigurarTerreno;
+    }
+
+    void ConfigurarTerreno()
+    {
+
+        // Aquí puedes realizar cualquier configuración adicional
+    }
+
 
     void GenerarAeropuertos()
     {
@@ -44,7 +75,6 @@ public class GeneradorTerreno : MonoBehaviour
 
                 if (intentos >= maxIntentos && !posicionValida)
                 {
-                    Debug.LogWarning("No se encontró una posición válida en tierra para el aeropuerto tras varios intentos.");
                     break;
                 }
             }

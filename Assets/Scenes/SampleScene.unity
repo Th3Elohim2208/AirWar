@@ -549,7 +549,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.21568628, g: 0.28235295, b: 0.8, a: 1}
   m_FlipX: 0
@@ -595,8 +595,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 369.80994, y: -143.68001}
-  m_SizeDelta: {x: 30.388, y: 84.93}
+  m_AnchoredPosition: {x: 369.80994, y: -142.91}
+  m_SizeDelta: {x: 30.39, y: 83.405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &869909104
 MonoBehaviour:
@@ -745,11 +745,60 @@ Transform:
   m_GameObject: {fileID: 1054723669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2117295062}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1310238420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1310238422}
+  - component: {fileID: 1310238421}
+  m_Layer: 0
+  m_Name: GeneradorGrafo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1310238421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310238420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 026911d5265262c4fbb46466bad5b282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aeropuertoPrefab: {fileID: 2304180653481385472, guid: a8410caa3e2ed0842a52a55139151641, type: 3}
+  portavionesPrefab: {fileID: 979429435918066600, guid: d7dc704378295344daeec8845d7c337a, type: 3}
+  cantidadAeropuertos: 3
+  cantidadPortaviones: 2
+  textoPesoPrefab: {fileID: 6090420548243556374, guid: e7d7a24ca736dad43b70e053bb156d34, type: 3}
+--- !u!4 &1310238422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310238420}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7743416, y: -0.32709646, z: 752.37683}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1326074617
 GameObject:
@@ -964,6 +1013,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2036439747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2036439749}
+  - component: {fileID: 2036439748}
+  m_Layer: 0
+  m_Name: AvionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2036439748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036439747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ccf4df7a9197504ca8e850dc1d42a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avionPrefab: {fileID: 6075109030862095649, guid: 175c7f6a2a3df964bbbf076925a623a4, type: 3}
+  cantidadAviones: 5
+--- !u!4 &2036439749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036439747}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.248783, y: -2.0351508, z: 752.37683}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2117295059
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,8 +1156,8 @@ Transform:
   m_GameObject: {fileID: 2117295059}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.6334, y: -5.6804, z: 0}
-  m_LocalScale: {x: 0.45574874, y: 1.2977483, z: 1}
+  m_LocalPosition: {x: -10.6334, y: -5.6882, z: 0}
+  m_LocalScale: {x: 0.45574874, y: 1.313451, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1054723670}
@@ -1076,3 +1171,5 @@ SceneRoots:
   - {fileID: 490784384}
   - {fileID: 1449187510}
   - {fileID: 2117295062}
+  - {fileID: 1310238422}
+  - {fileID: 2036439749}
