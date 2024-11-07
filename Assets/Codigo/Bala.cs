@@ -13,13 +13,30 @@ public class Bala : MonoBehaviour
 
     void Update()
     {
-        // Movimiento recto de la bala en la dirección hacia arriba
         transform.Translate(Vector2.up * velocidad * Time.deltaTime);
 
-        // Destruir la bala si se sale de la pantalla
         if (transform.position.y > 10.0f)
         {
             Destroy(gameObject);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Avion avion = other.GetComponent<Avion>();
+        if (avion != null)
+        {
+            Debug.Log("Colisión detectada con un avión.");
+            // Solo destruye el avión si está en vuelo
+            if (avion.estadoActual == Avion.EstadoAvion.EnVuelo)
+            {
+                avion.DestruirAvion();
+                Destroy(gameObject);
+            }
+            else
+            {
+                Debug.Log("El avión está en espera y no puede ser destruido.");
+            }
         }
     }
 }

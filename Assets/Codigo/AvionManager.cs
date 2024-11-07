@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AvionManager : MonoBehaviour
 {
@@ -9,25 +10,27 @@ public class AvionManager : MonoBehaviour
     private Grafo grafo;
     public float velocidadAvion = 5.0f;
     private List<GameObject> aviones = new List<GameObject>();
+    public int contadorAvionesDestruidos = 0;
+    public Text textoContadorAviones;
 
     void OnEnable()
     {
         GeneradorGrafo.OnGrafoInicializado += InicializarAviones;
+        Avion.OnAvionDestruido += IncrementarContador;
     }
 
     void OnDisable()
     {
         GeneradorGrafo.OnGrafoInicializado -= InicializarAviones;
+        Avion.OnAvionDestruido -= IncrementarContador;
     }
 
     void InicializarAviones()
     {
-
         grafo = FindObjectOfType<GeneradorGrafo>().grafo;
 
         if (grafo != null && grafo.nodos.Count > 0)
         {
-
             for (int i = 0; i < cantidadAviones; i++)
             {
                 GenerarAvion();
@@ -46,31 +49,32 @@ public class AvionManager : MonoBehaviour
 
         if (avion != null)
         {
-            avion.velocidadVuelo = velocidadAvion; // Asigna la velocidad configurada
-            avion.grafo = grafo; // Asigna el grafo al avión
+            avion.velocidadVuelo = velocidadAvion;
+            avion.grafo = grafo;
         }
 
         aviones.Add(avionObj);
     }
 
-
+    private void IncrementarContador()
+    {
+        contadorAvionesDestruidos++;
+        textoContadorAviones.text = "Aviones Destruidos: " + contadorAvionesDestruidos;
+    }
 
     Vector3 ObtenerPosicionInicial()
     {
-        // Filtrar los nodos de tipo "aeropuerto"
         List<Nodo> aeropuertos = grafo.nodos.FindAll(n => n.tipo == "aeropuerto");
 
         if (aeropuertos.Count > 0)
         {
-            // Seleccionar un aeropuerto aleatorio y devolver su posición
-            Nodo nodoInicial = aeropuertos[Random.Range(0, aeropuertos.Count)];
+            Nodo nodoInicial = aeropuertos[UnityEngine.Random.Range(0, aeropuertos.Count)];
             return nodoInicial.posicion;
         }
         else
         {
             Debug.LogError("No se encontraron aeropuertos en el grafo para generar aviones.");
-            return Vector3.zero; // O una posición por defecto
+            return Vector3.zero;
         }
     }
-
 }

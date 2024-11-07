@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
 public class Avion : MonoBehaviour
 {
@@ -9,7 +11,9 @@ public class Avion : MonoBehaviour
     public Nodo destino;
     public List<Nodo> rutaActual;
     public float velocidadVuelo = 3.0f;
-
+    public enum EstadoAvion { EnVuelo, EnEspera }
+    public EstadoAvion estadoActual = EstadoAvion.EnVuelo;
+    public static event Action OnAvionDestruido;
     private int indiceRuta = 0;
     private LineRenderer lineRenderer;
 
@@ -35,8 +39,7 @@ public class Avion : MonoBehaviour
 
         if (aeropuertos.Count > 0)
         {
-            Nodo nodoSeleccionado = aeropuertos[Random.Range(0, aeropuertos.Count)];
-            Debug.Log($"Nodo inicial seleccionado: {nodoSeleccionado.tipo} en posición {nodoSeleccionado.posicion}");
+            Nodo nodoSeleccionado = aeropuertos[UnityEngine.Random.Range(0, aeropuertos.Count)];
             return nodoSeleccionado;
         }
         else
@@ -46,17 +49,14 @@ public class Avion : MonoBehaviour
         }
     }
 
-
-
     void SeleccionarNuevoDestino()
     {
-        // Filtra los nodos de tipo "aeropuerto" y "portaviones" para seleccionar el destino
         List<Nodo> posiblesDestinos = grafo.nodos.FindAll(n => n.tipo == "aeropuerto" || n.tipo == "portaviones");
         Nodo nuevoDestino;
 
         do
         {
-            nuevoDestino = posiblesDestinos[Random.Range(0, posiblesDestinos.Count)];
+            nuevoDestino = posiblesDestinos[UnityEngine.Random.Range(0, posiblesDestinos.Count)];
         } while (nuevoDestino == posicionActual);
 
         destino = nuevoDestino;
@@ -65,7 +65,6 @@ public class Avion : MonoBehaviour
 
         if (rutaActual != null && rutaActual.Count > 1)
         {
-            Debug.Log($"Destino seleccionado: {destino.tipo} en posición {destino.posicion}");
             DibujarRuta();
         }
         else
@@ -73,8 +72,6 @@ public class Avion : MonoBehaviour
             Debug.LogWarning("No se encontró una ruta válida.");
         }
     }
-
-
 
     void MoverHaciaDestino()
     {
@@ -88,31 +85,45 @@ public class Avion : MonoBehaviour
                 posicionActual = siguienteNodo;
                 indiceRuta++;
 
+                // Cambia a EnEspera solo si ha llegado a su destino final
                 if (indiceRuta >= rutaActual.Count)
                 {
+                    estadoActual = EstadoAvion.EnEspera;
                     StartCoroutine(EsperarYReabastecer());
                 }
             }
         }
+        else
+        {
+            estadoActual = EstadoAvion.EnVuelo;
+        }
+    }
+
+    public void DestruirAvion()
+    {
+        Debug.Log("Avión destruido");
+        OnAvionDestruido?.Invoke();
+        Destroy(gameObject);
     }
 
     IEnumerator EsperarYReabastecer()
     {
-        float tiempoEspera = Random.Range(2.0f, 5.0f);
+        float tiempoEspera = UnityEngine.Random.Range(2.0f, 5.0f);
         yield return new WaitForSeconds(tiempoEspera);
 
-        float combustible = Random.Range(50.0f, 100.0f);
-        Debug.Log($"Avión reabastecido a {combustible} unidades de combustible.");
+        float combustible = UnityEngine.Random.Range(50.0f, 100.0f);
 
+        // Cambia el estado a EnVuelo después de reabastecer y antes de seleccionar un nuevo destino
+        estadoActual = EstadoAvion.EnVuelo;
         SeleccionarNuevoDestino();
     }
+
 
     void DibujarRuta()
     {
         if (lineRenderer != null && rutaActual != null)
         {
             lineRenderer.positionCount = rutaActual.Count;
-
             for (int i = 0; i < rutaActual.Count; i++)
             {
                 lineRenderer.SetPosition(i, rutaActual[i].posicion);
