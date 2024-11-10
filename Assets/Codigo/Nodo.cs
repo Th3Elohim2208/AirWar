@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Nodo 
+public class Nodo
 {
     public Vector2 posicion;
     public string tipo; // "aeropuerto" o "portaviones"

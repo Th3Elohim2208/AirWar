@@ -9,7 +9,7 @@ public class TemporizadorJuego : MonoBehaviour
     public AvionManager avionManager;    // Referencia al AvionManager para contar aviones destruidos
     public GameObject controlDisparo;    // Objeto que controla las balas o el disparo, para desactivarlo al final
 
-    private float tiempoRestante = 12f; // 2 minutos en segundos
+    private float tiempoRestante = 120f; // 2 minutos en segundos
     private bool juegoTerminado;
 
 

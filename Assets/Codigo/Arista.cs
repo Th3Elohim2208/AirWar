@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arista 
+public class Arista
 {
     public Nodo destino;
     public float peso;

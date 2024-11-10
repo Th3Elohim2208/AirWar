@@ -12,7 +12,23 @@ public class Grafo
 
     public void AgregarArista(Nodo origen, Nodo destino, float peso)
     {
-        origen.conexiones.Add(new Arista(destino, peso));
+        if (peso <= 0)
+        {
+            Debug.LogWarning("El peso de la arista debe ser mayor a 0.");
+            return;
+        }
+
+        // Verificar si la arista ya existe antes de agregarla
+        if (!ExisteArista(origen, destino))
+        {
+            origen.conexiones.Add(new Arista(destino, peso));
+            destino.conexiones.Add(new Arista(origen, peso)); // Arista bidireccional
+        }
+    }
+
+    private bool ExisteArista(Nodo origen, Nodo destino)
+    {
+        return origen.conexiones.Exists(a => a.destino == destino);
     }
 
     public bool VerificarConectividad()
@@ -20,10 +36,9 @@ public class Grafo
         if (nodos.Count == 0) return false;
 
         HashSet<Nodo> visitados = new HashSet<Nodo>();
-
         DFS(nodos[0], visitados);
 
-        // Si el número de nodos visitados es igual al número total de nodos, el grafo está conectado
+        // Verificar si todos los nodos fueron visitados
         bool conectado = visitados.Count == nodos.Count;
         Debug.Log(conectado ? "El grafo está completamente conectado." : "El grafo NO está completamente conectado.");
         return conectado;
@@ -63,7 +78,6 @@ public class Grafo
         return false;
     }
 
-    // Método Dijkstra 
     public List<Nodo> CalcularRutaDijkstra(Nodo inicio, Nodo objetivo)
     {
         Dictionary<Nodo, float> distancias = new Dictionary<Nodo, float>();
@@ -130,9 +144,6 @@ public class Grafo
         }
     }
 
-
-
-    // Método ImprimirConexiones (sin cambios)
     public void ImprimirConexiones()
     {
         foreach (Nodo nodo in nodos)
