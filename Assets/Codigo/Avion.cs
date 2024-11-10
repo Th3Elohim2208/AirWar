@@ -178,8 +178,18 @@ public class Avion : MonoBehaviour
     {
         if (posicionActual.tipo == "aeropuerto" && combustible < 50.0f)
         {
-            combustible = 100.0f; // Recargar combustible a 100 si está en un aeropuerto
-            Debug.Log("Avión reabastecido a 100 en aeropuerto");
+            float cantidadNecesaria = 100.0f - combustible;
+
+            // Intenta reabastecer el avión desde el tanque del aeropuerto
+            if (posicionActual.ReabastecerAvion(cantidadNecesaria))
+            {
+                combustible = 100.0f; // Llenar al máximo si hay suficiente
+                Debug.Log("Avión reabastecido a 100 en el aeropuerto.");
+            }
+            else
+            {
+                Debug.LogWarning("El aeropuerto no tiene suficiente combustible para reabastecer al avión.");
+            }
         }
 
         float tiempoEspera = UnityEngine.Random.Range(2.0f, 5.0f);
@@ -188,6 +198,7 @@ public class Avion : MonoBehaviour
         estadoActual = EstadoAvion.EnVuelo;
         SeleccionarNuevoDestino();
     }
+
 
     void DibujarRuta()
     {

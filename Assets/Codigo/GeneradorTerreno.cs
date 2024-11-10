@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,19 +13,17 @@ public class GeneradorTerreno : MonoBehaviour
     private List<Vector2> posicionesAeropuertos = new List<Vector2>();
     private Grafo grafo;
 
-    // Dimensiones de las áreas específicas
     private Rect areaTierra1 = new Rect(-9.8f, -4.2f, 5.2f, 9.3f); // Área de tierra izquierda
     private Rect areaTierra2 = new Rect(4.5f, -4.2f, 5.2f, 9.3f);  // Área de tierra derecha
     private Rect areaMar = new Rect(-2.8f, -4.2f, 5.2f, 9.3f); // Área de mar en el centro
 
     void Start()
     {
-        grafo = new Grafo(); // Inicializa el grafo aquí en GeneradorTerreno
+        grafo = new Grafo();
         GenerarAeropuertos();
         GenerarPortaviones();
 
-
-        // Llama al método para asignar el grafo inicializado a GeneradorGrafo
+        // Inicializar el grafo en GeneradorGrafo si es necesario
         var generadorGrafo = FindObjectOfType<GeneradorGrafo>();
         if (generadorGrafo != null)
         {
@@ -37,25 +34,6 @@ public class GeneradorTerreno : MonoBehaviour
             Debug.LogError("GeneradorGrafo no encontrado en la escena.");
         }
     }
-
-
-
-    void OnEnable()
-    {
-        GeneradorGrafo.OnGrafoInicializado += ConfigurarTerreno;
-    }
-
-    void OnDisable()
-    {
-        GeneradorGrafo.OnGrafoInicializado -= ConfigurarTerreno;
-    }
-
-    void ConfigurarTerreno()
-    {
-
-        // Aquí puedes realizar cualquier configuración adicional
-    }
-
 
     void GenerarAeropuertos()
     {
@@ -83,9 +61,27 @@ public class GeneradorTerreno : MonoBehaviour
             if (posicionValida)
             {
                 posicionesAeropuertos.Add(posicion);
-                Nodo nodo = new Nodo(posicion, "aeropuerto");
+                float combustibleInicial = 500f; // Cantidad inicial de combustible para el aeropuerto
+
+                // Crear el nodo del aeropuerto con combustible inicial y añadirlo al grafo
+                Nodo nodo = new Nodo(posicion, "aeropuerto", combustibleInicial);
                 grafo.AgregarNodo(nodo);
-                Instantiate(aeropuertoPrefab, posicion, Quaternion.identity);
+
+                // Instanciar el prefab del aeropuerto en la posición aleatoria
+                GameObject aeropuertoObj = Instantiate(aeropuertoPrefab, posicion, Quaternion.identity);
+
+                // Crear el TextMesh para mostrar el combustible restante
+                GameObject textoCombustible = new GameObject("TextoCombustible");
+                textoCombustible.transform.position = new Vector3(posicion.x, posicion.y + 0.5f, 0); // Ajusta la posición en Y para que esté encima
+                TextMesh textMesh = textoCombustible.AddComponent<TextMesh>();
+                textMesh.text = "Combustible: " + combustibleInicial;
+                textMesh.fontSize = 30;
+                textMesh.characterSize = 0.1f;
+                textMesh.alignment = TextAlignment.Center;
+                textMesh.anchor = TextAnchor.MiddleCenter;
+
+                // Vincula el TextMesh al Nodo del aeropuerto
+                nodo.textoCombustible = textMesh;
             }
         }
     }
@@ -138,7 +134,6 @@ public class GeneradorTerreno : MonoBehaviour
 
     Vector2 ObtenerPosicionEnMar()
     {
-        // Genera una posición aleatoria dentro del área de mar
         float x = Random.Range(areaMar.xMin + 1.0f, areaMar.xMax - 1.0f);
         float y = Random.Range(areaMar.yMin + 1.0f, areaMar.yMax - 1.0f);
         return new Vector2(x, y);
@@ -146,7 +141,6 @@ public class GeneradorTerreno : MonoBehaviour
 
     Vector2 ObtenerPosicionEnTierra()
     {
-        // Selecciona aleatoriamente una de las dos áreas de tierra
         Rect areaSeleccionada = (Random.Range(0, 2) == 0) ? areaTierra1 : areaTierra2;
         float x = Random.Range(areaSeleccionada.xMin + 1.0f, areaSeleccionada.xMax - 1.0f);
         float y = Random.Range(areaSeleccionada.yMin + 1.0f, areaSeleccionada.yMax - 1.0f);
@@ -155,12 +149,10 @@ public class GeneradorTerreno : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // Dibuja ambas áreas de tierra en verde
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(new Vector3(areaTierra1.center.x, areaTierra1.center.y, 0), new Vector3(areaTierra1.width, areaTierra1.height, 1));
         Gizmos.DrawWireCube(new Vector3(areaTierra2.center.x, areaTierra2.center.y, 0), new Vector3(areaTierra2.width, areaTierra2.height, 1));
 
-        // Dibuja el área de mar en azul
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(new Vector3(areaMar.center.x, areaMar.center.y, 0), new Vector3(areaMar.width, areaMar.height, 1));
     }
