@@ -33,7 +33,7 @@ public class BateriaAntiaerea : MonoBehaviour
         else
         {
             transform.Translate(Vector2.left * velocidadMovimiento * Time.deltaTime);
-            if (transform.position.x < -10.6f) // Límite izquierdo
+            if (transform.position.x < -13.7f) // Límite izquierdo
                 moviendoDerecha = true;
         }
     }

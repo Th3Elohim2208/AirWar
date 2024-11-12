@@ -152,8 +152,8 @@ public class GeneradorGrafo : MonoBehaviour
 
     bool EstanEnElMismoBloque(Nodo nodo1, Nodo nodo2)
     {
-        Rect areaTierra1 = new Rect(-9.8f, -4.2f, 5.2f, 9.3f);
-        Rect areaTierra2 = new Rect(4.5f, -4.2f, 5.2f, 9.3f);
+        Rect areaTierra1 = new Rect(-13.0f, -5.7f, 6.5f, 12.5f);
+        Rect areaTierra2 = new Rect(3.5f, -5.7f, 6.5f, 12.5f);
 
         bool enMismoBloque = (areaTierra1.Contains(nodo1.posicion) && areaTierra1.Contains(nodo2.posicion)) ||
                              (areaTierra2.Contains(nodo1.posicion) && areaTierra2.Contains(nodo2.posicion));

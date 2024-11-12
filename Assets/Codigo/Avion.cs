@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 
 public class Avion : MonoBehaviour
@@ -11,16 +10,19 @@ public class Avion : MonoBehaviour
     public Nodo destino;
     public List<Nodo> rutaActual;
     public float velocidadVuelo = 3.0f;
-    public float combustible = 100.0f; // Combustible inicial
+    public float combustible = 100.0f;
     public enum EstadoAvion { EnVuelo, EnEspera }
     public EstadoAvion estadoActual = EstadoAvion.EnVuelo;
-    public static event Action OnAvionDestruido;
+    public static event Action<Avion> OnAvionDestruido;
     private int indiceRuta = 0;
     private LineRenderer lineRenderer;
     private bool puedeMoverse = true;
-    private float consumoSegmento; // Combustible a consumir en el segmento actual
-    private float distanciaSegmento; // Distancia total al siguiente nodo
-    private float distanciaRecorrida; // Distancia recorrida hacia el siguiente nodo
+    private float consumoSegmento;
+    private float distanciaSegmento;
+    private float distanciaRecorrida;
+    public string id;
+
+    public List<AIModule> aiModules;
 
     void Start()
     {
@@ -28,6 +30,9 @@ public class Avion : MonoBehaviour
         posicionActual = ObtenerNodoInicial();
         SeleccionarNuevoDestino();
         DibujarRuta();
+
+        // Inicializa los módulos de AI
+        InicializarAIModules();
     }
 
     void Update()
@@ -36,6 +41,11 @@ public class Avion : MonoBehaviour
         {
             MoverHaciaDestino();
         }
+    }
+
+    public Avion()
+    {
+        id = Guid.NewGuid().ToString();
     }
 
     public void DetenerMovimiento()
@@ -76,10 +86,7 @@ public class Avion : MonoBehaviour
 
         if (rutaActual != null && rutaActual.Count > 1)
         {
-            // Configura el primer segmento de la ruta
             InicializarConsumoSegmento();
-
-            // Dibuja la ruta para visualizarla en pantalla
             DibujarRuta();
         }
         else
@@ -99,17 +106,16 @@ public class Avion : MonoBehaviour
             {
                 consumoSegmento = aristaActual.peso;
                 distanciaSegmento = Vector2.Distance(posicionActual.posicion, siguienteNodo.posicion);
-                distanciaRecorrida = 0; // Reiniciar la distancia recorrida
+                distanciaRecorrida = 0;
             }
             else
             {
                 Debug.LogWarning("No se encontró una arista para el segmento inicial. Intentando pasar al siguiente segmento...");
-                indiceRuta++; // Intenta avanzar al siguiente segmento
-                if (indiceRuta < rutaActual.Count - 1) InicializarConsumoSegmento(); // Reintenta con el siguiente segmento
+                indiceRuta++;
+                if (indiceRuta < rutaActual.Count - 1) InicializarConsumoSegmento();
             }
         }
     }
-
 
     void MoverHaciaDestino()
     {
@@ -117,22 +123,19 @@ public class Avion : MonoBehaviour
         {
             Nodo siguienteNodo = rutaActual[indiceRuta];
 
-            // Inicializa el consumo y la distancia si es el comienzo de un nuevo segmento
             if (distanciaRecorrida == 0 && consumoSegmento == 0)
             {
                 InicializarConsumoSegmento();
             }
 
-            // Avanza el avión y acumula la distancia recorrida
             float distanciaPaso = velocidadVuelo * Time.deltaTime;
             transform.position = Vector2.MoveTowards(transform.position, siguienteNodo.posicion, distanciaPaso);
             distanciaRecorrida += distanciaPaso;
 
-            // Calcula el consumo basado en el progreso en la distancia
             if (distanciaSegmento > 0)
             {
                 float consumoPorPaso = (consumoSegmento / distanciaSegmento) * distanciaPaso;
-                combustible -= consumoPorPaso; // Resta el consumo de combustible
+                combustible -= consumoPorPaso;
             }
 
             if (combustible <= 0)
@@ -141,13 +144,11 @@ public class Avion : MonoBehaviour
                 return;
             }
 
-            // Si ha alcanzado el siguiente nodo, reinicia la distancia recorrida y avanza en la ruta
             if (Vector2.Distance(transform.position, siguienteNodo.posicion) < 0.1f)
             {
                 posicionActual = siguienteNodo;
                 indiceRuta++;
 
-                // Si ha llegado al destino final, espera y reabastece si es necesario
                 if (indiceRuta >= rutaActual.Count)
                 {
                     estadoActual = EstadoAvion.EnEspera;
@@ -155,7 +156,7 @@ public class Avion : MonoBehaviour
                 }
                 else
                 {
-                    InicializarConsumoSegmento(); // Inicializa el siguiente segmento
+                    InicializarConsumoSegmento();
                 }
             }
         }
@@ -165,12 +166,10 @@ public class Avion : MonoBehaviour
         }
     }
 
-
-
     public void DestruirAvion()
     {
-        Debug.Log("Avión destruido por falta de combustible");
-        OnAvionDestruido?.Invoke();
+        Debug.Log($"Avión con ID {id} ha sido destruido.");
+        OnAvionDestruido?.Invoke(this);
         Destroy(gameObject);
     }
 
@@ -178,18 +177,10 @@ public class Avion : MonoBehaviour
     {
         if (posicionActual.tipo == "aeropuerto" && combustible < 50.0f)
         {
-            float cantidadNecesaria = 100.0f - combustible;
-
             // Intenta reabastecer el avión desde el tanque del aeropuerto
-            if (posicionActual.ReabastecerAvion(cantidadNecesaria))
-            {
-                combustible = 100.0f; // Llenar al máximo si hay suficiente
-                Debug.Log("Avión reabastecido a 100 en el aeropuerto.");
-            }
-            else
-            {
-                Debug.LogWarning("El aeropuerto no tiene suficiente combustible para reabastecer al avión.");
-            }
+            posicionActual.ReabastecerAvion(ref combustible); // Pasa el combustible del avión por referencia
+
+            Debug.Log($"Avión reabastecido a {combustible} en el aeropuerto.");
         }
 
         float tiempoEspera = UnityEngine.Random.Range(2.0f, 5.0f);
@@ -210,5 +201,28 @@ public class Avion : MonoBehaviour
                 lineRenderer.SetPosition(i, rutaActual[i].posicion);
             }
         }
+    }
+
+
+
+    void InicializarAIModules()
+    {
+        aiModules = new List<AIModule>
+        {
+            new AIModule("Pilot", RandomID(), UnityEngine.Random.Range(45, 900)),
+            new AIModule("Copilot", RandomID(), UnityEngine.Random.Range(45, 900)),
+            new AIModule("Maintenance", RandomID(), UnityEngine.Random.Range(45, 900)),
+            new AIModule("Space Awareness", RandomID(), UnityEngine.Random.Range(45, 900))
+        };
+    }
+
+    string RandomID()
+    {
+        char[] letters = new char[3];
+        for (int i = 0; i < 3; i++)
+        {
+            letters[i] = (char)UnityEngine.Random.Range('A', 'Z' + 1);
+        }
+        return new string(letters);
     }
 }

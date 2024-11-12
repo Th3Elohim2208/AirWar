@@ -22,17 +22,26 @@ public class Nodo
         }
     }
 
-    public bool ReabastecerAvion(float cantidad)
+    public bool ReabastecerAvion(ref float combustibleAvion)
     {
-        if (combustibleDisponible >= cantidad)
+        if (combustibleDisponible > 0)
         {
-            combustibleDisponible -= cantidad;
+            float cantidadReabastecida = Mathf.Min(combustibleDisponible, 100.0f - combustibleAvion);
+            combustibleAvion += cantidadReabastecida;
+            combustibleDisponible -= cantidadReabastecida;
+
             ActualizarTextoCombustible();
+
+            if (combustibleDisponible <= 0)
+            {
+                Debug.Log("El aeropuerto se ha quedado sin combustible.");
+            }
+
             return true;
         }
         else
         {
-            Debug.LogWarning("El aeropuerto no tiene suficiente combustible para reabastecer al avión.");
+            Debug.LogWarning("El aeropuerto no tiene combustible disponible para reabastecer al avión.");
             return false;
         }
     }

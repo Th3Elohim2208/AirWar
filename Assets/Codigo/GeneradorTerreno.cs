@@ -13,9 +13,9 @@ public class GeneradorTerreno : MonoBehaviour
     private List<Vector2> posicionesAeropuertos = new List<Vector2>();
     private Grafo grafo;
 
-    private Rect areaTierra1 = new Rect(-9.8f, -4.2f, 5.2f, 9.3f); // Área de tierra izquierda
-    private Rect areaTierra2 = new Rect(4.5f, -4.2f, 5.2f, 9.3f);  // Área de tierra derecha
-    private Rect areaMar = new Rect(-2.8f, -4.2f, 5.2f, 9.3f); // Área de mar en el centro
+    private Rect areaTierra1 = new Rect(-13.0f, -5.7f, 6.5f, 12.5f); // Área de tierra izquierda
+    private Rect areaTierra2 = new Rect(3.5f, -5.7f, 6.5f, 12.5f);  // Área de tierra derecha
+    private Rect areaMar = new Rect(-4.8f, -5.7f, 6.5f, 12.5f); // Área de mar en el centro
 
     void Start()
     {
@@ -75,7 +75,7 @@ public class GeneradorTerreno : MonoBehaviour
                 textoCombustible.transform.position = new Vector3(posicion.x, posicion.y + 0.5f, 0); // Ajusta la posición en Y para que esté encima
                 TextMesh textMesh = textoCombustible.AddComponent<TextMesh>();
                 textMesh.text = "Combustible: " + combustibleInicial;
-                textMesh.fontSize = 30;
+                textMesh.fontSize = 42;
                 textMesh.characterSize = 0.1f;
                 textMesh.alignment = TextAlignment.Center;
                 textMesh.anchor = TextAnchor.MiddleCenter;

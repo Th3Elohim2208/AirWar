@@ -68,7 +68,7 @@ public class TemporizadorJuego : MonoBehaviour
         }
 
         // Mostrar mensaje final con el contador de aviones destruidos
-        mensajeFinal.text = "Juego terminado. Aviones eliminados: " + avionManager.contadorAvionesDestruidos;
+        mensajeFinal.text = "Juego terminado. Aviones eliminados: " + avionManager.ContadorAvionesDestruidos;
         mensajeFinal.gameObject.SetActive(true);
     }
 
