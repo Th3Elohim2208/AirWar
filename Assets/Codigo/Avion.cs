@@ -173,7 +173,6 @@ public class Avion : MonoBehaviour
 
     public void DestruirAvion()
     {
-        Debug.Log($"Avión con ID {id} ha sido destruido.");
         OnAvionDestruido?.Invoke(this);
         Destroy(gameObject);
     }

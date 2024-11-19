@@ -25,8 +25,6 @@ public class GestionAvionesDerribados : MonoBehaviour
         if (!avionesDerribados.Contains(avion))
         {
             avionesDerribados.Add(avion);
-            Debug.Log($"Avión con ID {avion.id} ha sido añadido a la lista de aviones derribados. - Timestamp: {Time.time}");
-            Debug.Log($"jueputa - Timestamp: {Time.time}");
         }
         else
         {
@@ -37,8 +35,6 @@ public class GestionAvionesDerribados : MonoBehaviour
 
     public Avion ObtenerAvionPorID(string id)
     {
-        Debug.Log($"pitodaaaaaaa - Timestamp: {Time.time}");
-        Debug.Log(id + $"sex0- Timestamp: {Time.time}");
         foreach (Avion avion in avionesDerribados)
         {
             if (avion.id == id)
@@ -65,7 +61,6 @@ public class GestionAvionesDerribados : MonoBehaviour
         {
             if (avion.id == id)
             {
-                Debug.Log($"ID: {avion.id}, Combustible: {avion.combustible}, Estado Actual: {avion.estadoActual} - Timestamp: {Time.time}");
                 temp = avion;
                 Debug.Log("------------------------------------------------------------");
                 Debug.Log($"ID: {temp.id}, Combustible: {temp.combustible}, Estado Actual: {temp.estadoActual} - Timestamp: {Time.time}");
@@ -148,7 +143,7 @@ public class GestionAvionesDerribados : MonoBehaviour
                 SelectionSort(tripulacion, (a, b) => a.ID.CompareTo(b.ID));
                 break;
             case "Rol":
-                SelectionSort(tripulacion, (a, b) => a.Rol.CompareTo(b.Rol));
+                SelectionSort(tripulacion, CompararRoles);
                 break;
             case "HorasDeVuelo":
                 SelectionSort(tripulacion, (a, b) => a.HorasDeVuelo.CompareTo(b.HorasDeVuelo));
@@ -159,6 +154,26 @@ public class GestionAvionesDerribados : MonoBehaviour
         }
 
         return tripulacion;
+    }
+
+    // Función personalizada para comparar roles en el orden deseado
+    private int CompararRoles(AIModule a, AIModule b)
+    {
+        // Define el orden de prioridad de los roles
+        Dictionary<string, int> prioridades = new Dictionary<string, int>
+    {
+        { "Pilot", 1 },
+        { "Copilot", 2 },
+        { "Maintenance", 3 },
+        { "Space Awareness", 4 }
+    };
+
+        // Obtén las prioridades de los roles, o un valor alto si el rol no está definido
+        int prioridadA = prioridades.ContainsKey(a.Rol) ? prioridades[a.Rol] : int.MaxValue;
+        int prioridadB = prioridades.ContainsKey(b.Rol) ? prioridades[b.Rol] : int.MaxValue;
+
+        // Compara las prioridades
+        return prioridadA.CompareTo(prioridadB);
     }
 
     private void SelectionSort(List<AIModule> list, Comparison<AIModule> comparison)
@@ -182,3 +197,4 @@ public class GestionAvionesDerribados : MonoBehaviour
         }
     }
 }
+

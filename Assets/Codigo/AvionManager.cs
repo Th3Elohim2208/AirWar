@@ -151,9 +151,7 @@ public class AvionManager : MonoBehaviour
         }
 
         // Agregar el avión destruido a la lista en GestionAvionesDerribados
-        Debug.Log($"Agregando avión a avionesDerribados.- Timestamp: {Time.time}");
         gestionAvionesDerribados.AgregarAvionDerribado(avion);
-        Debug.Log($"Avión con ID {avion.id} agregado a avionesDerribados.- Timestamp: {Time.time}");
 
         // Eliminar el avión de la lista de aviones activos
         aviones.Remove(avion.gameObject);
@@ -164,13 +162,8 @@ public class AvionManager : MonoBehaviour
 
     private void ActualizarListaAvionesDerribados()
     {
-        Debug.Log($"Actualizando lista de aviones derribados. IDs en avionesDerribados:- Timestamp: {Time.time}");
-        foreach (Avion avion in gestionAvionesDerribados.ObtenerAvionesDerribados())
-        {
-            Debug.Log(avion.id + $"picha - Timestamp: {Time.time}");
-        }
 
-        List<Avion> avionesDerribados = gestionAvionesDerribados.ObtenerAvionesDerribados();
+        List<Avion> avionesDerribados = gestionAvionesDerribados.ObtenerAvionesDerribadosOrdenadosPorID();
         avionDropdown.ClearOptions(); // Limpiar opciones previas
 
         foreach (Avion avion in avionesDerribados)
@@ -193,24 +186,18 @@ public class AvionManager : MonoBehaviour
         // Obtener el ID directamente del texto seleccionado en el Dropdown
         string textoSeleccionado = avionDropdown.options[avionDropdown.value].text;
         string avionID = textoSeleccionado.Replace("ID: ", ""); // Elimina el prefijo "ID: "
-        Debug.Log($"Avión seleccionado en dropdown: {avionID} - Timestamp: {Time.time}");
-        gestionAvionesDerribados.MostrarAvionesDerribados(avionID);
 
         Avion avionSeleccionado1= gestionAvionesDerribados.ObtenerAvionPorID(avionID);
-        Debug.Log($"nica- Timestamp: {Time.time}");
         Avion avionSeleccionado = gestionAvionesDerribados.MostrarAvionesDerribados(avionID);
 
 
         // Verifica que el avión seleccionado exista
-        if (avionSeleccionado.id==null)
+        if (avionSeleccionado.id == null)
         {
             textoTripulacion.text = "No se encontró la tripulación para el avión seleccionado.";
             Debug.LogWarning($"El avión con ID {avionID} no se encontró en avionesDerribados.");
             return;
         }
-
-        // Verificar si aiModules está inicializado y tiene elementos
-        Debug.Log($"Avión {avionSeleccionado.id} tiene {avionSeleccionado.aiModules.Count} módulos de AI.");
 
         // Obtener el criterio de ordenamiento seleccionado
         string criterio = criterioDropdown.options[criterioDropdown.value].text;
