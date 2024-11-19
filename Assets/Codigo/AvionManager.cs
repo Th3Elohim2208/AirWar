@@ -13,12 +13,13 @@ public class AvionManager : MonoBehaviour
     public float intervaloGeneracionAviones = 10.0f;
     public Text textoContadorAviones;
     public Text textoAvionesDerribados;
-
+    public Dropdown avionDropdown;
+    public Dropdown criterioDropdown;
+    public Text textoTripulacion;
     private List<GameObject> aviones = new List<GameObject>();
     private Grafo grafo;
     private int contadorAvionesDestruidos = 0;
     private GestionAvionesDerribados gestionAvionesDerribados;
-
     public int ContadorAvionesDestruidos => contadorAvionesDestruidos;
 
     void OnEnable()
@@ -41,6 +42,13 @@ public class AvionManager : MonoBehaviour
             Debug.LogError("No se encontró el componente GestionAvionesDerribados en AvionManager.");
             return;
         }
+
+        // Configura el dropdown de selección de criterio
+        criterioDropdown.onValueChanged.AddListener(delegate { ActualizarTripulacion(); });
+        avionDropdown.onValueChanged.AddListener(delegate { ActualizarTripulacion(); });
+
+        // Llama a este método después de confirmar que gestionAvionesDerribados no es null
+        ActualizarListaAvionesDerribados();
 
         StartCoroutine(GenerarAvionesPeriodicamente());
     }
@@ -135,8 +143,17 @@ public class AvionManager : MonoBehaviour
         contadorAvionesDestruidos++;
         textoContadorAviones.text = "Aviones Destruidos: " + contadorAvionesDestruidos;
 
+        // Asegura que el avión tenga módulos de AI
+        if (avion.aiModules == null || avion.aiModules.Count == 0)
+        {
+            avion.InicializarAIModules();
+          
+        }
+
         // Agregar el avión destruido a la lista en GestionAvionesDerribados
+        Debug.Log($"Agregando avión a avionesDerribados.- Timestamp: {Time.time}");
         gestionAvionesDerribados.AgregarAvionDerribado(avion);
+        Debug.Log($"Avión con ID {avion.id} agregado a avionesDerribados.- Timestamp: {Time.time}");
 
         // Eliminar el avión de la lista de aviones activos
         aviones.Remove(avion.gameObject);
@@ -147,12 +164,63 @@ public class AvionManager : MonoBehaviour
 
     private void ActualizarListaAvionesDerribados()
     {
-        List<Avion> listaOrdenada = gestionAvionesDerribados.ObtenerAvionesDerribadosOrdenadosPorID();
-        textoAvionesDerribados.text = "Aviones Derribados (Ordenados por ID):\n";
-
-        foreach (Avion avion in listaOrdenada)
+        Debug.Log($"Actualizando lista de aviones derribados. IDs en avionesDerribados:- Timestamp: {Time.time}");
+        foreach (Avion avion in gestionAvionesDerribados.ObtenerAvionesDerribados())
         {
-            textoAvionesDerribados.text += $"ID: {avion.id}\n";
+            Debug.Log(avion.id + $"picha - Timestamp: {Time.time}");
+        }
+
+        List<Avion> avionesDerribados = gestionAvionesDerribados.ObtenerAvionesDerribados();
+        avionDropdown.ClearOptions(); // Limpiar opciones previas
+
+        foreach (Avion avion in avionesDerribados)
+        {
+            Dropdown.OptionData option = new Dropdown.OptionData
+            {
+                text = $"ID: {avion.id}" // Esto se muestra al usuario
+            };
+            avionDropdown.options.Add(option);
+        }
+
+        avionDropdown.RefreshShownValue();
+        ActualizarTripulacion(); // Llama a la función para actualizar la tripulación mostrada
+    }
+
+    private void ActualizarTripulacion()
+    {
+        if (avionDropdown.options.Count == 0) return;
+
+        // Obtener el ID directamente del texto seleccionado en el Dropdown
+        string textoSeleccionado = avionDropdown.options[avionDropdown.value].text;
+        string avionID = textoSeleccionado.Replace("ID: ", ""); // Elimina el prefijo "ID: "
+        Debug.Log($"Avión seleccionado en dropdown: {avionID} - Timestamp: {Time.time}");
+        gestionAvionesDerribados.MostrarAvionesDerribados(avionID);
+
+        Avion avionSeleccionado1= gestionAvionesDerribados.ObtenerAvionPorID(avionID);
+        Debug.Log($"nica- Timestamp: {Time.time}");
+        Avion avionSeleccionado = gestionAvionesDerribados.MostrarAvionesDerribados(avionID);
+
+
+        // Verifica que el avión seleccionado exista
+        if (avionSeleccionado.id==null)
+        {
+            textoTripulacion.text = "No se encontró la tripulación para el avión seleccionado.";
+            Debug.LogWarning($"El avión con ID {avionID} no se encontró en avionesDerribados.");
+            return;
+        }
+
+        // Verificar si aiModules está inicializado y tiene elementos
+        Debug.Log($"Avión {avionSeleccionado.id} tiene {avionSeleccionado.aiModules.Count} módulos de AI.");
+
+        // Obtener el criterio de ordenamiento seleccionado
+        string criterio = criterioDropdown.options[criterioDropdown.value].text;
+        List<AIModule> tripulacionOrdenada = gestionAvionesDerribados.ObtenerTripulacionOrdenada(avionSeleccionado, criterio);
+
+        // Mostrar la tripulación del avión seleccionado
+        textoTripulacion.text = $"Tripulación de Avión ID {avionSeleccionado.id}:\n";
+        foreach (AIModule module in tripulacionOrdenada)
+        {
+            textoTripulacion.text += $"ID: {module.ID}, Rol: {module.Rol}, Horas de Vuelo: {module.HorasDeVuelo}\n";
         }
     }
 }

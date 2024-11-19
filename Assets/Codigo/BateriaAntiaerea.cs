@@ -40,22 +40,19 @@ public class BateriaAntiaerea : MonoBehaviour
 
     void ControlarDisparo()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !UIHelper.IsPointerOverUI())
         {
             estaPresionandoClick = true;
             tiempoPresionandoClick = 0.0f;
         }
 
-        if (estaPresionandoClick)
+        if (estaPresionandoClick && Input.GetMouseButton(0))
         {
             tiempoPresionandoClick += Time.deltaTime;
 
             // Calcular el progreso en función del tiempo máximo de carga
             float progresoCarga = Mathf.Clamp(tiempoPresionandoClick / tiempoMaximoDeCarga, 0, 1);
             barraCarga.fillAmount = progresoCarga;
-
-            // Calcular la velocidad de la bala en función del progreso de carga
-            float velocidadBala = progresoCarga * velocidadMaximaBala;
         }
 
         if (Input.GetMouseButtonUp(0) && estaPresionandoClick)
@@ -72,7 +69,10 @@ public class BateriaAntiaerea : MonoBehaviour
         float progresoCarga = Mathf.Clamp(tiempoPresion / tiempoMaximoDeCarga, 0, 1);
         float velocidadBala = progresoCarga * velocidadMaximaBala;
 
+        // Crear la bala y establecer su velocidad
         GameObject bala = Instantiate(balaPrefab, puntoDisparo.position, Quaternion.identity);
         bala.GetComponent<Bala>().Inicializar(velocidadBala);
+
+        // Mostrar la velocidad de la bala en la consola
     }
 }

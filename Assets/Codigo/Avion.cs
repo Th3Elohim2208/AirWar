@@ -31,9 +31,14 @@ public class Avion : MonoBehaviour
         SeleccionarNuevoDestino();
         DibujarRuta();
 
-        // Inicializa los módulos de AI
-        InicializarAIModules();
+        // Inicializar los módulos de AI si aún no están inicializados
+        if (aiModules == null || aiModules.Count == 0)
+        {
+            InicializarAIModules();
+        }
     }
+
+
 
     void Update()
     {
@@ -205,7 +210,7 @@ public class Avion : MonoBehaviour
 
 
 
-    void InicializarAIModules()
+    public void InicializarAIModules()
     {
         aiModules = new List<AIModule>
         {
@@ -215,6 +220,8 @@ public class Avion : MonoBehaviour
             new AIModule("Space Awareness", RandomID(), UnityEngine.Random.Range(45, 900))
         };
     }
+
+
 
     string RandomID()
     {
