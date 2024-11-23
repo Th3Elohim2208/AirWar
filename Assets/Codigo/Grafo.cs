@@ -18,65 +18,35 @@ public class Grafo
             return;
         }
 
-        // Verificar si la arista ya existe antes de agregarla
         if (!ExisteArista(origen, destino))
         {
             origen.conexiones.Add(new Arista(destino, peso));
-            destino.conexiones.Add(new Arista(origen, peso)); // Arista bidireccional
+            destino.conexiones.Add(new Arista(origen, peso));
         }
     }
 
-    private bool ExisteArista(Nodo origen, Nodo destino)
+    public bool ExisteArista(Nodo origen, Nodo destino)
     {
         return origen.conexiones.Exists(a => a.destino == destino);
     }
 
-    public bool VerificarConectividad()
+    public void VerificarConexionesDelGrafo()
     {
-        if (nodos.Count == 0) return false;
-
-        HashSet<Nodo> visitados = new HashSet<Nodo>();
-        DFS(nodos[0], visitados);
-
-        // Verificar si todos los nodos fueron visitados
-        bool conectado = visitados.Count == nodos.Count;
-        Debug.Log(conectado ? "El grafo está completamente conectado." : "El grafo NO está completamente conectado.");
-        return conectado;
-    }
-
-    private void DFS(Nodo nodo, HashSet<Nodo> visitados)
-    {
-        if (visitados.Contains(nodo)) return;
-
-        visitados.Add(nodo);
-
-        foreach (var arista in nodo.conexiones)
+        foreach (Nodo nodo in nodos)
         {
-            DFS(arista.destino, visitados);
+            if (nodo.conexiones.Count == 0)
+            {
+                Nodo conexion = nodos[UnityEngine.Random.Range(0, nodos.Count)];
+                if (conexion != nodo)
+                {
+                    float peso = Vector2.Distance(nodo.posicion, conexion.posicion);
+                    AgregarArista(nodo, conexion, peso);
+                    Debug.Log($"Conexión automática añadida entre {nodo.posicion} y {conexion.posicion}.");
+                }
+            }
         }
     }
 
-    public bool ExisteRuta(Nodo origen, Nodo destino)
-    {
-        HashSet<Nodo> visitados = new HashSet<Nodo>();
-        return DFSBuscarRuta(origen, destino, visitados);
-    }
-
-    private bool DFSBuscarRuta(Nodo actual, Nodo destino, HashSet<Nodo> visitados)
-    {
-        if (actual == destino) return true;
-        if (visitados.Contains(actual)) return false;
-
-        visitados.Add(actual);
-
-        foreach (var arista in actual.conexiones)
-        {
-            if (DFSBuscarRuta(arista.destino, destino, visitados))
-                return true;
-        }
-
-        return false;
-    }
 
     public List<Nodo> CalcularRutaDijkstra(Nodo inicio, Nodo objetivo)
     {
@@ -107,7 +77,6 @@ public class Grafo
                 {
                     distancias[arista.destino] = nuevaDistancia;
                     previos[arista.destino] = actual;
-                    Debug.Log($"Actualizando distancia de {arista.destino.tipo} a {nuevaDistancia}");
                 }
             }
 
@@ -132,17 +101,27 @@ public class Grafo
             ruta.Insert(0, nodo);
         }
 
+        for (int i = 0; i < ruta.Count - 1; i++)
+        {
+            if (!ExisteArista(ruta[i], ruta[i + 1]))
+            {
+                Debug.LogError($"[Error Dijkstra] Ruta inválida: no hay conexión entre {ruta[i].posicion} y {ruta[i + 1].posicion}.");
+                return null;
+            }
+        }
+
         if (ruta.Count > 1 && ruta[0] == inicio)
         {
-            Debug.Log("Ruta encontrada");
+            Debug.Log("Ruta encontrada y validada.");
             return ruta;
         }
         else
         {
-            Debug.LogWarning("No se encontró una ruta en Dijkstra.");
+            Debug.LogWarning("No se encontró una ruta válida.");
             return null;
         }
     }
+
 
     public void ImprimirConexiones()
     {
@@ -151,8 +130,12 @@ public class Grafo
             Debug.Log($"Nodo {nodo.tipo} en posición {nodo.posicion} tiene {nodo.conexiones.Count} conexiones:");
             foreach (Arista conexion in nodo.conexiones)
             {
-                Debug.Log($"    Conexión hacia {conexion.destino.tipo} en posición {conexion.destino.posicion} con peso {conexion.peso}");
+                Debug.Log($"  Conexión hacia {conexion.destino.tipo} en posición {conexion.destino.posicion}, peso: {conexion.peso}");
             }
         }
     }
 }
+
+
+
+

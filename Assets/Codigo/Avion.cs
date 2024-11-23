@@ -28,24 +28,44 @@ public class Avion : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         posicionActual = ObtenerNodoInicial();
+
+        if (posicionActual == null)
+        {
+            Debug.LogError("No se pudo obtener un nodo inicial válido para el avión.");
+            return;
+        }
+
+        transform.position = posicionActual.posicion; // Coloca el avión en el nodo inicial
         SeleccionarNuevoDestino();
         DibujarRuta();
 
-        // Inicializar los módulos de AI si aún no están inicializados
         if (aiModules == null || aiModules.Count == 0)
         {
             InicializarAIModules();
         }
     }
 
-
-
     void Update()
     {
-        if (puedeMoverse && rutaActual != null && indiceRuta < rutaActual.Count)
+        if (!puedeMoverse)
         {
-            MoverHaciaDestino();
+            Debug.LogWarning($"[Avión {id}] El movimiento está deshabilitado.");
+            return;
         }
+
+        if (rutaActual == null || rutaActual.Count == 0)
+        {
+            Debug.LogWarning($"[Avión {id}] No hay una ruta válida.");
+            return;
+        }
+
+        if (indiceRuta >= rutaActual.Count)
+        {
+            Debug.LogWarning($"[Avión {id}] La ruta se ha completado.");
+            return;
+        }
+
+        MoverHaciaDestino();
     }
 
     public Avion()
@@ -77,99 +97,68 @@ public class Avion : MonoBehaviour
     void SeleccionarNuevoDestino()
     {
         List<Nodo> posiblesDestinos = grafo.nodos.FindAll(n => n.tipo == "aeropuerto" || n.tipo == "portaviones");
-        Nodo nuevoDestino;
+        Nodo nuevoDestino = null;
+        List<Nodo> nuevaRuta = null;
 
-        do
+        for (int intentos = 0; intentos < 10; intentos++) // Máximo 10 intentos
         {
             nuevoDestino = posiblesDestinos[UnityEngine.Random.Range(0, posiblesDestinos.Count)];
-        } while (nuevoDestino == posicionActual);
 
-        destino = nuevoDestino;
-        rutaActual = grafo.CalcularRutaDijkstra(posicionActual, destino);
-        indiceRuta = 0;
-        distanciaRecorrida = 0;
+            if (nuevoDestino == posicionActual) continue;
 
-        if (rutaActual != null && rutaActual.Count > 1)
+            nuevaRuta = grafo.CalcularRutaDijkstra(posicionActual, nuevoDestino);
+
+            if (nuevaRuta != null && nuevaRuta.Count > 1) break;
+        }
+
+        if (nuevaRuta != null && nuevaRuta.Count > 1)
         {
-            InicializarConsumoSegmento();
+            destino = nuevoDestino;
+            rutaActual = nuevaRuta;
+            indiceRuta = 0;
+            Debug.Log($"[Avión {id}] Nueva ruta asignada desde {posicionActual.posicion} hasta {destino.posicion}.");
             DibujarRuta();
         }
         else
         {
-            Debug.LogWarning("No se encontró una ruta válida.");
+            Debug.LogWarning($"[Avión {id}] No se encontró una ruta válida después de varios intentos. Verificando grafo.");
+            grafo.VerificarConexionesDelGrafo(); // Verificar y completar conexiones faltantes
+            SeleccionarNuevoDestino();
         }
     }
 
-    void InicializarConsumoSegmento()
-    {
-        if (rutaActual != null && indiceRuta < rutaActual.Count - 1)
-        {
-            Nodo siguienteNodo = rutaActual[indiceRuta + 1];
-            Arista aristaActual = posicionActual.conexiones.Find(a => a.destino == siguienteNodo);
-
-            if (aristaActual != null)
-            {
-                consumoSegmento = aristaActual.peso;
-                distanciaSegmento = Vector2.Distance(posicionActual.posicion, siguienteNodo.posicion);
-                distanciaRecorrida = 0;
-            }
-            else
-            {
-                Debug.LogWarning("No se encontró una arista para el segmento inicial. Intentando pasar al siguiente segmento...");
-                indiceRuta++;
-                if (indiceRuta < rutaActual.Count - 1) InicializarConsumoSegmento();
-            }
-        }
-    }
 
     void MoverHaciaDestino()
     {
-        if (indiceRuta < rutaActual.Count)
+        if (rutaActual == null || indiceRuta >= rutaActual.Count)
         {
-            Nodo siguienteNodo = rutaActual[indiceRuta];
-
-            if (distanciaRecorrida == 0 && consumoSegmento == 0)
-            {
-                InicializarConsumoSegmento();
-            }
-
-            float distanciaPaso = velocidadVuelo * Time.deltaTime;
-            transform.position = Vector2.MoveTowards(transform.position, siguienteNodo.posicion, distanciaPaso);
-            distanciaRecorrida += distanciaPaso;
-
-            if (distanciaSegmento > 0)
-            {
-                float consumoPorPaso = (consumoSegmento / distanciaSegmento) * distanciaPaso;
-                combustible -= consumoPorPaso;
-            }
-
-            if (combustible <= 0)
-            {
-                DestruirAvion();
-                return;
-            }
-
-            if (Vector2.Distance(transform.position, siguienteNodo.posicion) < 0.1f)
-            {
-                posicionActual = siguienteNodo;
-                indiceRuta++;
-
-                if (indiceRuta >= rutaActual.Count)
-                {
-                    estadoActual = EstadoAvion.EnEspera;
-                    StartCoroutine(EsperarYReabastecer());
-                }
-                else
-                {
-                    InicializarConsumoSegmento();
-                }
-            }
+            Debug.LogWarning($"[Avión {id}] No hay ruta válida o se completó la ruta.");
+            SeleccionarNuevoDestino();
+            return;
         }
-        else
+
+        Nodo siguienteNodo = rutaActual[indiceRuta];
+        float distanciaPaso = velocidadVuelo * Time.deltaTime;
+
+        // Actualizar posición
+        transform.position = Vector2.MoveTowards(transform.position, siguienteNodo.posicion, distanciaPaso);
+
+        if (Vector2.Distance(transform.position, siguienteNodo.posicion) < 0.1f)
         {
-            estadoActual = EstadoAvion.EnVuelo;
+            Debug.Log($"[Avión {id}] Alcanzó el nodo {siguienteNodo.posicion}.");
+            posicionActual = siguienteNodo;
+            indiceRuta++;
+
+            // Si se completó la ruta
+            if (indiceRuta >= rutaActual.Count)
+            {
+                Debug.Log($"[Avión {id}] Ruta completada. Esperando reabastecimiento.");
+                estadoActual = EstadoAvion.EnEspera;
+                StartCoroutine(EsperarYReabastecer());
+            }
         }
     }
+
 
     public void DestruirAvion()
     {
@@ -181,9 +170,7 @@ public class Avion : MonoBehaviour
     {
         if (posicionActual.tipo == "aeropuerto" && combustible < 50.0f)
         {
-            // Intenta reabastecer el avión desde el tanque del aeropuerto
-            posicionActual.ReabastecerAvion(ref combustible); // Pasa el combustible del avión por referencia
-
+            posicionActual.ReabastecerAvion(ref combustible);
             Debug.Log($"Avión reabastecido a {combustible} en el aeropuerto.");
         }
 
@@ -194,19 +181,25 @@ public class Avion : MonoBehaviour
         SeleccionarNuevoDestino();
     }
 
-
     void DibujarRuta()
     {
-        if (lineRenderer != null && rutaActual != null)
+        if (lineRenderer != null && rutaActual != null && rutaActual.Count > 1)
         {
+            lineRenderer.enabled = true;
             lineRenderer.positionCount = rutaActual.Count;
+
             for (int i = 0; i < rutaActual.Count; i++)
             {
                 lineRenderer.SetPosition(i, rutaActual[i].posicion);
             }
+
+            Debug.Log($"[Avión {id}] Ruta dibujada con {rutaActual.Count} puntos.");
+        }
+        else
+        {
+            Debug.LogWarning($"[Avión {id}] No se puede dibujar la ruta. LineRenderer o ruta no válida.");
         }
     }
-
 
 
     public void InicializarAIModules()
@@ -219,8 +212,6 @@ public class Avion : MonoBehaviour
             new AIModule("Space Awareness", RandomID(), UnityEngine.Random.Range(45, 900))
         };
     }
-
-
 
     string RandomID()
     {
